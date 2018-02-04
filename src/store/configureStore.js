@@ -1,12 +1,13 @@
 import {createStore, compose, applyMiddleware} from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import epics from './epics'
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import createHistory from 'history/createBrowserHistory';
 // 'routerMiddleware': the new way of storing route changes with redux middleware since rrV4.
 import { routerMiddleware } from 'react-router-redux';
 import rootReducer from '../reducers';
 
-const rootEpic = combineEpics();
+const rootEpic = combineEpics(...epics);
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 export const history = createHistory();
