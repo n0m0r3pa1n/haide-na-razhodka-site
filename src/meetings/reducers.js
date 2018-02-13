@@ -1,11 +1,11 @@
 import {FETCH_MEETINGS_FULFILLED} from "./actions";
 
-export const meetingsReducer = (state = { meetings: [] }, action) => {
+export const meetingsReducer = (state = { list: [] }, action) => {
   switch (action.type) {
     case FETCH_MEETINGS_FULFILLED:
       return {
         ...state,
-        meetings: action.payload
+        list: action.meetings
       };
   }
 

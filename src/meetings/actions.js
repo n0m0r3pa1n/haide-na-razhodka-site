@@ -5,6 +5,6 @@ export const fetchMeetings = () => ({type: FETCH_MEETINGS});
 export function fetchMeetingsFulfilled(payload) {
   return {
     type: FETCH_MEETINGS_FULFILLED,
-    ...payload
+    meetings: payload.meetings
   };
 }

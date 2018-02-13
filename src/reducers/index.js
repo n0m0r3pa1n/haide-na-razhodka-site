@@ -3,7 +3,7 @@ import { routerReducer } from 'react-router-redux';
 import {meetingsReducer} from "../meetings/reducers";
 
 const rootReducer = combineReducers({
-  meetingsReducer,
+  meetings: meetingsReducer,
   routing: routerReducer
 });
 
