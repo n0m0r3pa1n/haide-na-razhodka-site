@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {fetchMeetings} from "../meetings/actions";
+import { FlatButton } from 'material-ui';
 
 class HomePage extends Component {
   render() {
@@ -17,7 +18,7 @@ class HomePage extends Component {
           <li>Review the <Link to="/fuel-savings">demo app</Link></li>
           <li>Remove the demo and start coding: npm run remove-demo</li>
         </ol>
-        <button onClick={this.props.onClickTest}>Test</button>
+        <FlatButton variant="raised" color="primary" onClick={this.props.onClickTest}>Test</FlatButton>
         {listItems}
       </div>
     );
