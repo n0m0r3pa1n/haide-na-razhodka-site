@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardTitle, CardText, CardActions} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import Linkify from 'react-linkify';
 
 const style = {
@@ -23,7 +24,7 @@ class Meeting extends Component {
       />
     );
     let index = 0;
-    const description = meeting.description.split("\n").map(item => {
+    const description = meeting.description.trunc(500).split("\n").map(item => {
       return (
         <span key={index++}>
                 {item}
@@ -40,6 +41,9 @@ class Meeting extends Component {
             {description}
           </Linkify>
         </CardText>
+        <CardActions>
+          <RaisedButton primary={true} label="Детайли" href={`/details?id=${meeting._id}`} />
+        </CardActions>
       </Card>
     );
   }
