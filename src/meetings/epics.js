@@ -1,13 +1,20 @@
-import {FETCH_MEETINGS, fetchMeetingsFulfilled} from "./actions";
+import {FETCH_MEETINGS, fetchMeetingsFulfilled, fetchMeetingsFailed} from "./actions";
 import axios from 'axios'
-import {Observable} from "rxjs";
+import { put, takeEvery } from 'redux-saga/effects'
 
-export const fetchMeetingsEpic = (action$) => {
-  return action$.ofType(FETCH_MEETINGS)
-    .switchMap(() => {
-        return Observable.fromPromise(
-          axios.get('https://haide-na-razhodka.herokuapp.com/api/meetings')
-            .then(res => fetchMeetingsFulfilled(res.data))
-      );
-    });
-};
+
+function* fetchMeetingsEpic() {
+  try {
+    const response= yield axios.get('http://haide-na-razhodka-server.herokuapp.com/api/meetings?page=0&pageSize=10');
+    yield put(fetchMeetingsFulfilled(response.data));
+  } catch (e) {
+    yield put(fetchMeetingsFailed(e.message));
+  }
+}
+
+export function* fetchMeetingsSaga() {
+  yield takeEvery(FETCH_MEETINGS, fetchMeetingsEpic);
+}
+
+export default fetchMeetingsSaga;
+

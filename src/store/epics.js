@@ -1,3 +1,3 @@
-import {fetchMeetingsEpic} from "../meetings/epics";
+import {fetchMeetingsSaga} from "../meetings/epics";
 
-export default [fetchMeetingsEpic];
+export default [fetchMeetingsSaga];

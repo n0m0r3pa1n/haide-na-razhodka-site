@@ -13,7 +13,7 @@ class HomePage extends Component {
 
   render() {
     const listItems = this.props.meetings.map(meeting =>
-      <Meeting meeting={meeting} />
+      <Meeting key={meeting._id} meeting={meeting} />
     );
     return (
       <div>

@@ -1,27 +1,31 @@
 import {createStore, compose, applyMiddleware} from 'redux';
-import {combineEpics, createEpicMiddleware} from 'redux-observable';
-import epics from './epics'
+import 'regenerator-runtime/runtime';
+import epics from './epics';
+import createSagaMiddleware from 'redux-saga';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import createHistory from 'history/createBrowserHistory';
 // 'routerMiddleware': the new way of storing route changes with redux middleware since rrV4.
 import {routerMiddleware} from 'react-router-redux';
 import rootReducer from '../reducers';
 
-const rootEpic = combineEpics(...epics);
-const epicMiddleware = createEpicMiddleware(rootEpic);
+const sagaMiddleware = createSagaMiddleware()
 
 export const history = createHistory();
 function configureStoreProd(initialState) {
   const reactRouterMiddleware = routerMiddleware(history);
   const middlewares = [
-    rootEpic,
+    sagaMiddleware,
     reactRouterMiddleware,
   ];
 
-  return createStore(rootReducer, initialState, compose(
+  const store = createStore(rootReducer, initialState, compose(
     applyMiddleware(...middlewares)
     )
   );
+
+  epics.forEach(epic => sagaMiddleware.run(epic));
+
+  return store;
 }
 
 function configureStoreDev(initialState) {
@@ -31,7 +35,7 @@ function configureStoreDev(initialState) {
     // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
     reduxImmutableStateInvariant(),
 
-    epicMiddleware,
+    sagaMiddleware,
     reactRouterMiddleware,
   ];
 
@@ -49,6 +53,7 @@ function configureStoreDev(initialState) {
     });
   }
 
+  epics.forEach(epic => sagaMiddleware.run(epic));
   return store;
 }
 
