@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import HomePage from './HomePage';
+import HomePage from '../meetings/HomePage';
 import NotFoundPage from './NotFoundPage';
 import BottomNavigation from '../navigation/BottomNavigation';
 
