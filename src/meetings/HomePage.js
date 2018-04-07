@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Paper from 'material-ui/Paper';
-import Meeting from './Meeting'
+import Meeting from './Meeting';
+import SearchForm from './SearchForm';
+import PropTypes from 'prop-types';
 
 import {fetchMeetings} from "./actions";
 
 const style = {
   display: 'flex',
-  'flex-direction': 'row',
-  'flex-wrap': 'wrap',
-  'justify-content': 'flex-start',
-  'align-items': 'flex-start',
-  'align-content': 'flex-start'
+  'flexDirection': 'row',
+  'flexWrap': 'wrap',
+  'justifyContent': 'flex-start',
+  'alignItems': 'flex-start',
+  'alignContent': 'flex-start'
 };
 
 class HomePage extends Component {
+
+  submit = (fromDate, toDate) => {
+    // print the form values to the console
+    console.log(fromDate, toDate);
+  };
 
   componentDidMount() {
     this.props.loadMeetings();
@@ -27,6 +34,7 @@ class HomePage extends Component {
 
     return (
       <div>
+        <SearchForm onSubmit={this.submit} />
         <Paper zDepth={1} style={style}>
           {listItems}
         </Paper>
@@ -34,6 +42,11 @@ class HomePage extends Component {
     );
   }
 }
+
+HomePage.propTypes = {
+  meetings: PropTypes.array,
+  loadMeetings: PropTypes.func
+};
 
 const mapStateToProps = (state) => {
   return {
