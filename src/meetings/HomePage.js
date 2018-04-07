@@ -5,6 +5,15 @@ import Meeting from './Meeting'
 
 import {fetchMeetings} from "./actions";
 
+const style = {
+  display: 'flex',
+  'flex-direction': 'row',
+  'flex-wrap': 'wrap',
+  'justify-content': 'flex-start',
+  'align-items': 'flex-start',
+  'align-content': 'flex-start'
+};
+
 class HomePage extends Component {
 
   componentDidMount() {
@@ -15,9 +24,10 @@ class HomePage extends Component {
     const listItems = this.props.meetings.map(meeting =>
       <Meeting key={meeting._id} meeting={meeting} />
     );
+
     return (
       <div>
-        <Paper zDepth={1}>
+        <Paper zDepth={1} style={style}>
           {listItems}
         </Paper>
       </div>
