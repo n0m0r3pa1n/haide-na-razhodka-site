@@ -6,7 +6,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {fromDate: '', toDate: ''};
+    this.state = {fromDate: props.fromDate, toDate: props.toDate};
 
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
@@ -32,6 +32,7 @@ class SearchForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div style={{display: 'inline-block'}}>
             <DatePicker
+              value={this.state.fromDate}
               floatingLabelText="От дата"
               onChange={this.handleFromDateChange}
             />
@@ -39,6 +40,7 @@ class SearchForm extends React.Component {
           <div style={{display: 'inline-block', marginLeft: '20px'}}>
             <DatePicker
               floatingLabelText="До дата"
+              value={this.state.toDate}
               onChange={this.handleToDateChange}
             />
           </div>

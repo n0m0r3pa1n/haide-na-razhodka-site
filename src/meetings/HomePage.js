@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import {fetchMeetings} from "./actions";
 
 const style = {
+  marginTop: '10px',
+  paddingBottom: '10px',
   display: 'flex',
   'flexDirection': 'row',
   'flexWrap': 'wrap',
@@ -19,12 +21,12 @@ const style = {
 class HomePage extends Component {
 
   submit = (fromDate, toDate) => {
-    // print the form values to the console
-    console.log(fromDate, toDate);
+    this.props.loadMeetings(fromDate, toDate);
   };
 
   componentDidMount() {
-    this.props.loadMeetings();
+    const { loadMeetings, fromDate, toDate } = this.props;
+    loadMeetings(fromDate, toDate);
   }
 
   render() {
@@ -34,7 +36,7 @@ class HomePage extends Component {
 
     return (
       <div>
-        <SearchForm onSubmit={this.submit} />
+        <SearchForm onSubmit={this.submit} fromDate={this.props.fromDate} toDate={this.props.toDate} />
         <Paper zDepth={1} style={style}>
           {listItems}
         </Paper>
@@ -45,18 +47,22 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
   meetings: PropTypes.array,
+  fromDate: PropTypes.instanceOf(Date),
+  toDate: PropTypes.instanceOf(Date),
   loadMeetings: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
   return {
-    meetings: state.meetings.list
+    meetings: state.meetings.list,
+    fromDate: state.meetings.fromDate,
+    toDate: state.meetings.toDate,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMeetings: () => dispatch(fetchMeetings())
+    loadMeetings: (fromDate, toDate) => dispatch(fetchMeetings(fromDate, toDate))
   };
 };
 
