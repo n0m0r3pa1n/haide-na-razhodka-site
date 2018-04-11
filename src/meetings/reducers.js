@@ -1,10 +1,13 @@
 import {FETCH_MEETINGS_FULFILLED, SEARCH_MEETINGS_DATA_IS_SET} from "./actions";
 import moment from 'moment';
+import _ from 'lodash';
 
 const initialState = {
   list: [],
   fromDate: moment().startOf('day').toDate(),
-  toDate: moment().add(30, 'day').startOf('day').toDate()
+  toDate: moment().add(30, 'day').startOf('day').toDate(),
+  page: 0,
+  pages: 1
 };
 
 export const meetingsReducer = (state = initialState, action) => {
@@ -12,9 +15,9 @@ export const meetingsReducer = (state = initialState, action) => {
     case FETCH_MEETINGS_FULFILLED:
       return {
         ...state,
-        list: action.pagination.results,
-        currentPage: action.pagination.page,
-        pages: action.pagination.totalPages
+        list: _.concat(state.list, action.pagination.results),
+        page: action.pagination.page,
+        pages: action.pagination.pages
       };
     case SEARCH_MEETINGS_DATA_IS_SET:
       return {
