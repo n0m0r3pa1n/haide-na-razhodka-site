@@ -62,7 +62,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMeetings: (fromDate, toDate) => dispatch(fetchMeetings(fromDate, toDate))
+    loadMeetings: (fromDate, toDate) => dispatch(fetchMeetings(fromDate.toISOString(), toDate.toISOString()))
   };
 };
 
