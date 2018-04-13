@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from '../meetings/HomePage';
+import Details from '../details/Details';
 import NotFoundPage from './NotFoundPage';
 import AppBar from 'material-ui/AppBar';
 
@@ -18,6 +19,7 @@ class App extends React.Component {
           <AppBar title="Хайде на разходка" iconClassNameLeft={"no-icon"}/>
           <Switch>
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/:id/details" component={Details} />
             <Route path="/login" component={HomePage} />
             <Route component={NotFoundPage} />
           </Switch>

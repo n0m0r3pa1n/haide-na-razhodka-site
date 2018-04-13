@@ -53,7 +53,7 @@ class Meeting extends Component {
           </Linkify>
         </CardText>
         <CardActions>
-          <RaisedButton primary={true} label="Детайли" href={`/details?id=${meeting._id}`}/>
+          <RaisedButton primary={true} label="Детайли" href={`/${meeting._id}/details`}/>
         </CardActions>
       </Card>
     );
