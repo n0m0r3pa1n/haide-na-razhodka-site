@@ -5,12 +5,22 @@ import FontIcon from 'material-ui/FontIcon';
 import {Card, CardMedia, CardHeader, CardTitle, CardText, CardActions} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Linkify from 'react-linkify';
+import { Link } from 'react-router-dom'
 
 const style = {
   marginTop: '10px',
   marginLeft: '30px',
   marginRight: '30px',
   width: '30%',
+};
+
+const linkStyle = {
+  fontSize: '14px',
+  letterSpacing: '0px',
+  textTransform: 'uppercase',
+  textDecoration: 'none',
+  userSelect: 'none',
+  color: 'rgb(255, 255, 255)'
 };
 
 class Meeting extends Component {
@@ -53,7 +63,9 @@ class Meeting extends Component {
           </Linkify>
         </CardText>
         <CardActions>
-          <RaisedButton primary={true} label="Детайли" href={`/${meeting._id}/details`}/>
+          <RaisedButton primary={true}>
+            <Link to={`/${meeting._id}/details`} style={linkStyle}>Детайли</Link>
+          </RaisedButton>
         </CardActions>
       </Card>
     );
