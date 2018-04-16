@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {fetchMeeting} from "./actions";
 import * as _ from "lodash";
+import Paper from 'material-ui/Paper';
 
 class Details extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     const {id} = this.props.match.params;
@@ -21,9 +19,9 @@ class Details extends Component {
     }
 
     return (
-      <div>
+      <Paper>
         Details ${meeting.name}
-      </div>
+      </Paper>
     );
   }
 }
