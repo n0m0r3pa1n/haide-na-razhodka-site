@@ -53,7 +53,7 @@ class Details extends Component {
                 </div>
                 <div className="col-md-9 offset-1">
                   <h3 className="card-title ">{meeting.name}</h3>
-                  <div>Организирано от: <a href={`https://facebook.com/${organizer.social_id}`}
+                  <div>Организирано от: <a href={`https://facebook.com/${meeting.social_id}`}
                                            target={"_blank"}>{organizer.name}</a>
                   </div>
                 </div>
