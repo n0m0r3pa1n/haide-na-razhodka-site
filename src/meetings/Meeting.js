@@ -5,7 +5,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {Card, CardMedia, CardHeader, CardTitle, CardText, CardActions} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Linkify from 'react-linkify';
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router';
 
 const style = {
   marginTop: '10px',
@@ -14,20 +14,14 @@ const style = {
   width: '30%',
 };
 
-const linkStyle = {
-  fontSize: '14px',
-  letterSpacing: '0px',
-  textTransform: 'uppercase',
-  textDecoration: 'none',
-  userSelect: 'none',
-  color: 'rgb(255, 255, 255)'
-};
-
 class Meeting extends Component {
+
+  openDetails(meetingId) {
+    this.props.history.push(`/${meetingId}/details`);
+  }
 
   render() {
     const meeting = this.props.meeting;
-
 
     const organizers = meeting.organizers.map(organizer => {
       const facebookIcon = <FontIcon style={{"fontSize": "18px"}} className="fa fa-facebook-square"/>;
@@ -63,9 +57,7 @@ class Meeting extends Component {
           </Linkify>
         </CardText>
         <CardActions>
-          <RaisedButton primary={true}>
-            <Link to={`/${meeting._id}/details`} style={linkStyle}>Детайли</Link>
-          </RaisedButton>
+          <RaisedButton primary={true} onClick={() => this.openDetails(meeting._id)} label="Детайли" />
         </CardActions>
       </Card>
     );
@@ -76,4 +68,4 @@ Meeting.propTypes = {
   meeting: PropTypes.object
 };
 
-export default Meeting;
+export default withRouter(Meeting);
