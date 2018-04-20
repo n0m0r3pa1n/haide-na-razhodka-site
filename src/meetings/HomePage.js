@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Paper from 'material-ui/Paper';
-import Meeting from './Meeting';
 import SearchForm from './SearchForm';
 import PropTypes from 'prop-types';
-import InfiniteScroll from 'react-infinite-scroller';
-import {ListItems as ListItemsStyle, Loader as LoaderStyle} from "./HomePage.css";
-
-import {fetchMeetings} from "./actions";
+import MeetingsList from './MeetingsList';
+import {fetchMeetings, searchMeetings} from "./actions";
 
 class HomePage extends Component {
-  hasMore = true;
-  submit = (fromDate, toDate) => {
-    this.loadPaginatedMeetings(fromDate, toDate);
+  componentDidMount() {
+    this.props.loadMeetings(this.props.fromDate, this.props.toDate, 1);
+  }
+
+  searchMeetings = (fromDate, toDate) => {
+    this.props.searchMeetings(fromDate, toDate, 1);
   };
 
   loadPaginatedMeetings = (page) => {
@@ -20,24 +19,10 @@ class HomePage extends Component {
   };
 
   render() {
-    const listItems = this.props.meetings.map(meeting =>
-      <Meeting key={meeting._id} meeting={meeting}/>
-    );
-
-    this.hasMore = this.props.currentPage < this.props.pages;
     return (
       <div>
-        <SearchForm onSubmit={this.submit} fromDate={this.props.fromDate} toDate={this.props.toDate}/>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={this.loadPaginatedMeetings}
-          hasMore={this.hasMore}
-          loader={<div style={LoaderStyle} className="loader" key={0}>Loading ...</div>}
-        >
-          <Paper zDepth={1} style={ListItemsStyle}>
-            {listItems}
-          </Paper>
-        </InfiniteScroll>
+        <SearchForm onSubmit={this.searchMeetings} fromDate={this.props.fromDate} toDate={this.props.toDate}/>
+        <MeetingsList {...this.props} loadMore={this.loadPaginatedMeetings} />
       </div>
     );
   }
@@ -48,6 +33,7 @@ HomePage.propTypes = {
   fromDate: PropTypes.instanceOf(Date),
   toDate: PropTypes.instanceOf(Date),
   loadMeetings: PropTypes.func,
+  searchMeetings: PropTypes.func,
   pages: PropTypes.number,
   currentPage: PropTypes.number
 };
@@ -64,7 +50,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMeetings: (fromDate, toDate, page) => dispatch(fetchMeetings(fromDate, toDate, page))
+    loadMeetings: (fromDate, toDate, page) => dispatch(fetchMeetings(fromDate, toDate, page)),
+    searchMeetings: (fromDate, toDate, page) => dispatch(searchMeetings(fromDate, toDate, page))
   };
 };
 

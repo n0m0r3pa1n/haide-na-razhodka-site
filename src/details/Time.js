@@ -30,8 +30,8 @@ class Location extends Component {
 }
 
 Location.propTypes = {
-  startTime: PropTypes.instanceOf(Date),
-  endTime: PropTypes.instanceOf(Date),
+  startTime: PropTypes.string,
+  endTime: PropTypes.string,
   ticketUri: PropTypes.string
 };
 
