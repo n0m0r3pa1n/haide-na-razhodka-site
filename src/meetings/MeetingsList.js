@@ -10,19 +10,21 @@ class MeetingsList extends Component {
   hasMore = true;
 
   render() {
-    const {meetings, currentPage, pages, loadMore} = this.props;
+    const {meetings, currentPage, pages, loadMore, loading, pageStart} = this.props;
     this.hasMore = currentPage < pages;
     const listItems = meetings.map(meeting =>
       <Meeting key={meeting._id} meeting={meeting}/>
     );
 
-    if (_.isEmpty(meetings)) {
+    if (loading) {
+      return <div>loading</div>;
+    } else if (_.isEmpty(meetings)) {
       return <div>Empty</div>;
     }
 
     return (
       <InfiniteScroll
-        pageStart={1}
+        pageStart={pageStart}
         loadMore={loadMore}
         hasMore={this.hasMore}
         loader={<div style={LoaderStyle} className="loader" key={0}>Loading ...</div>}
@@ -38,7 +40,9 @@ class MeetingsList extends Component {
 MeetingsList.propTypes = {
   meetings: PropTypes.array,
   currentPage: PropTypes.number,
+  pageStart: PropTypes.number,
   pages: PropTypes.number,
+  loading: PropTypes.bool,
   loadMore: PropTypes.func
 };
 

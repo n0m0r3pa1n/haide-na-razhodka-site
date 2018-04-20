@@ -1,9 +1,14 @@
 export const FETCH_MEETINGS = "fetch.meetings";
 export const SEARCH_MEETINGS = "search.meetings";
+export const LOADING_MEETINGS = "loading.meetings";
 export const SEARCH_MEETINGS_DATA_IS_SET = "search.meetings.data.set";
 export const FETCH_MEETINGS_FAILED = "fetch.meetings.failed";
 export const FETCH_MEETINGS_FULFILLED = "fetch.meetings.fulfilled";
 export const SEARCH_MEETINGS_FULFILLED = "search.meetings.fulfilled";
+
+export function loadingMeetings() {
+  return {type: LOADING_MEETINGS};
+}
 
 export const fetchMeetings = (fromDate, toDate, page) => {
   return {

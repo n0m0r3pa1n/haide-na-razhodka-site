@@ -6,11 +6,13 @@ import MeetingsList from './MeetingsList';
 import {fetchMeetings, searchMeetings} from "./actions";
 
 class HomePage extends Component {
+  pageStart = 1;
   componentDidMount() {
-    this.props.loadMeetings(this.props.fromDate, this.props.toDate, 1);
+      this.props.searchMeetings(this.props.fromDate, this.props.toDate, 1);
   }
 
   searchMeetings = (fromDate, toDate) => {
+    this.pageStart = 1;
     this.props.searchMeetings(fromDate, toDate, 1);
   };
 
@@ -22,7 +24,7 @@ class HomePage extends Component {
     return (
       <div>
         <SearchForm onSubmit={this.searchMeetings} fromDate={this.props.fromDate} toDate={this.props.toDate}/>
-        <MeetingsList {...this.props} loadMore={this.loadPaginatedMeetings} />
+        <MeetingsList {...this.props} loadMore={this.loadPaginatedMeetings} pageStart={this.pageStart} />
       </div>
     );
   }
@@ -44,7 +46,8 @@ const mapStateToProps = (state) => {
     fromDate: state.meetings.fromDate,
     toDate: state.meetings.toDate,
     currentPage: state.meetings.page,
-    pages: state.meetings.pages
+    pages: state.meetings.pages,
+    loading: state.meetings.loading
   };
 };
 

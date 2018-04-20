@@ -4,7 +4,8 @@ import {
   fetchMeetingsFulfilled,
   fetchMeetingsFailed,
   searchFormdataIsSet,
-  searchMeetingsFulfilled
+  searchMeetingsFulfilled,
+  loadingMeetings
 } from "./actions";
 import {getMeetings} from "../api";
 import {put, takeEvery} from 'redux-saga/effects';
@@ -23,6 +24,7 @@ function* fetchMeetingsEpic(action) {
 
 function* searchMeetingsEpic(action) {
   const {fromDate, toDate, page} = action.payload;
+  yield put(loadingMeetings());
   yield put(searchFormdataIsSet(fromDate, toDate));
   try {
     const response = yield getMeetings(page, 10, fromDate, toDate);
