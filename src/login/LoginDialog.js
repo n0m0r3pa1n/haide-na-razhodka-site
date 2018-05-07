@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
+import {connect} from 'react-redux';
+import {login} from './actions'
 
 class LoginDialog extends Component {
   componentDidMount() {
@@ -23,16 +25,15 @@ class LoginDialog extends Component {
   }
 
   login() {
+    const {login} = this.props;
     window.FB.login(function(response) {
-      console.log(response);
+      login(response);
     }, {scope: 'email'});
   }
 
   render() {
-
     const open = this.props.open;
     const onRequestClose = this.props.onRequestClose;
-
     return (
       <Dialog
         title="Вход с Facebook"
@@ -50,8 +51,19 @@ class LoginDialog extends Component {
 
 LoginDialog.propTypes = {
   open: PropTypes.bool,
-  onRequestClose: PropTypes.func
+  onRequestClose: PropTypes.func,
+  login: PropTypes.func
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return { login: (authData) => dispatch(login(authData)) };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: !state.user.isAuthenticated,
+  };
 };
 
 
-export default LoginDialog;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog);
