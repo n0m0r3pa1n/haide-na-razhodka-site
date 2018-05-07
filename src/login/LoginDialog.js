@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
-import {connect} from 'react-redux';
-import {login} from './actions'
 
 class LoginDialog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
+
   componentDidMount() {
     window.fbAsyncInit = function() {
       window.FB.init({
@@ -24,6 +29,18 @@ class LoginDialog extends Component {
     }(document, 'script', 'facebook-jssdk'));
   }
 
+  openDialog() {
+    this.setState({
+      open: true
+    });
+  }
+
+  closeDialog() {
+    this.setState({
+      open: false
+    });
+  }
+
   login() {
     const {login} = this.props;
     window.FB.login(function(response) {
@@ -32,15 +49,13 @@ class LoginDialog extends Component {
   }
 
   render() {
-    const open = this.props.open;
-    const onRequestClose = this.props.onRequestClose;
     return (
       <Dialog
         title="Вход с Facebook"
         style={{height: "600px"}}
         modal={false}
-        open={open}
-        onRequestClose={onRequestClose}
+        open={this.state.open}
+        onRequestClose={() => this.closeDialog()}
       >
         <div id={'fb-root'} />
         <button onClick={() => this.login()}>Login with Facebook </button>
@@ -51,19 +66,7 @@ class LoginDialog extends Component {
 
 LoginDialog.propTypes = {
   open: PropTypes.bool,
-  onRequestClose: PropTypes.func,
   login: PropTypes.func
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return { login: (authData) => dispatch(login(authData)) };
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: !state.user.isAuthenticated,
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog);
+export default LoginDialog;

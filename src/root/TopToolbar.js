@@ -5,26 +5,25 @@ import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router-dom';
 import LoginDialog from '../login/LoginDialog';
+import {login} from "../login/actions";
+import {connect} from "react-redux";
 
 class TopToolbar extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       open: false
     };
+
+    this.loginDialogRef = React.createRef();
+
+    if(this.props.isAuthenticated) {
+      this.loginStyle = {display: "none"};
+    }
   }
 
   openLoginDialog() {
-    this.setState({
-      open: true
-    });
-  }
-
-  closeLoginDialog() {
-    this.setState({
-      open: false
-    });
+    this.loginDialogRef.current.openDialog();
   }
 
   render() {
@@ -42,10 +41,11 @@ class TopToolbar extends Component {
             </Link>
           </ToolbarGroup>
           <ToolbarGroup>
-            <RaisedButton label="Вход" secondary={true} onClick={() => this.openLoginDialog()}/>
+            <RaisedButton style={this.props.isAuthenticated ? {display: "none"} : {display: "visible"}} label="Вход" secondary={true} onClick={() => this.openLoginDialog()}/>
+            <RaisedButton style={this.props.isAuthenticated ? {display: "visible"} : {display: "none"}} label="Изход" primary={true} onClick={() => this.openLoginDialog()}/>
           </ToolbarGroup>
         </Toolbar>
-        <LoginDialog open={this.state.open} onRequestClose={() => this.closeLoginDialog()} />
+        <LoginDialog ref={this.loginDialogRef} login={this.props.login} />
       </div>
     );
   }
@@ -54,7 +54,20 @@ class TopToolbar extends Component {
 TopToolbar.propTypes = {
   startTime: PropTypes.instanceOf(Date),
   endTime: PropTypes.instanceOf(Date),
+  isAuthenticated: PropTypes.bool,
+  login: PropTypes.func,
   ticketUri: PropTypes.string
 };
 
-export default muiThemeable()(TopToolbar);
+const mapDispatchToProps = (dispatch) => {
+  return { login: (authData) => dispatch(login(authData)) };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: !state.user.isAuthenticated,
+  };
+};
+
+const ThemedToolbar = muiThemeable()(TopToolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(ThemedToolbar);
