@@ -5,7 +5,7 @@ import {getMeeting} from "../api";
 function* fetchMeetingEpic(action) {
   const {id} = action.payload;
   const response = yield getMeeting(id);
-  console.log(response);
+
   yield put(fetchMeetingFulfilled(response.data.meeting));
 }
 

@@ -5,6 +5,7 @@ import { AppContainer } from 'react-hot-loader';
 import configureStore, { history } from './store/configureStore';
 import Root from './components/Root';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
 require('./utils');
 const store = configureStore();
