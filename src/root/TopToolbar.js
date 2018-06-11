@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import LoginDialog from '../login/LoginDialog';
 import {login} from "../login/actions";
 import {connect} from "react-redux";
+import {resetToken} from "../security/actions";
 
 class TopToolbar extends Component {
   constructor(props) {
@@ -16,9 +17,13 @@ class TopToolbar extends Component {
     };
 
     this.loginDialogRef = React.createRef();
+  }
 
-    if(this.props.isAuthenticated) {
-      this.loginStyle = {display: "none"};
+  componentWillUpdate(nextProps) {
+    if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
+      if (nextProps.isAuthenticated) {
+        this.loginDialogRef.current.closeDialog();
+      }
     }
   }
 
@@ -41,8 +46,8 @@ class TopToolbar extends Component {
             </Link>
           </ToolbarGroup>
           <ToolbarGroup>
-            <RaisedButton style={this.props.isAuthenticated ? {display: "none"} : {display: "visible"}} label="Вход" secondary={true} onClick={() => this.openLoginDialog()}/>
-            <RaisedButton style={this.props.isAuthenticated ? {display: "visible"} : {display: "none"}} label="Изход" primary={true} onClick={() => this.openLoginDialog()}/>
+            <RaisedButton style={this.props.isAuthenticated ? {display: "none"} : {display: "block"}} label="Вход" secondary={true} onClick={() => this.openLoginDialog()}/>
+            <RaisedButton style={this.props.isAuthenticated ? {display: "block"} : {display: "none"}} label="Изход" primary={true} onClick={() => this.props.resetToken()}/>
           </ToolbarGroup>
         </Toolbar>
         <LoginDialog ref={this.loginDialogRef} login={this.props.login} />
@@ -56,16 +61,23 @@ TopToolbar.propTypes = {
   endTime: PropTypes.instanceOf(Date),
   isAuthenticated: PropTypes.bool,
   login: PropTypes.func,
+  resetToken: PropTypes.func,
   ticketUri: PropTypes.string
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return { login: (authData) => dispatch(login(authData)) };
+  return {
+    login: (authData) => dispatch(login(authData)),
+    resetToken: () =>{
+      localStorage.removeItem('jwtToken'); //remove token from storage
+      dispatch(resetToken());
+    }
+  };
 };
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: !state.user.isAuthenticated,
+    isAuthenticated: state.user.isAuthenticated,
   };
 };
 

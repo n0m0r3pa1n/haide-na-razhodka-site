@@ -5,6 +5,7 @@ export function login(payload) {
   return {type: LOGIN_USER, payload};
 }
 
-export function loginMeetingFulfilled(payload) {
+export function loginUserFulfilled(token) {
+  const payload = {token};
   return {type: LOGIN_USER_FULFILLED, payload};
 }

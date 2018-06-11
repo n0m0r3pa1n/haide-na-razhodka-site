@@ -223,7 +223,7 @@ Nope. Redux is useful for applications with more complex data flows. If your app
 <a name="how-do-i-remove-react-router"></a>
 ### How do I remove React Router?
  1. Uninstall React Router and routing related packages: `npm uninstall --save react-router-dom`
- 2. Remove `import { Switch, NavLink, Route } from 'react-router-dom';` from top of `src/components/App.js`, add a reference to `src/components/FuelSavingsForm.js`, and replace body of (implicit) render with this: `<FuelSavingsPage />`.
+ 2. Remove `import { Switch, NavLink, Route } from 'react-router-dom';` from top of `src/components/AppContainer.jstainer.js`, add a reference to `src/components/FuelSavingsForm.js`, and replace body of (implicit) render with this: `<FuelSavingsPage />`.
 
 <a name="how-do-i-deploy-this"></a>
 ### How do I deploy this?

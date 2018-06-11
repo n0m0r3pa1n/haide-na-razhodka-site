@@ -1,4 +1,4 @@
-import {LOGIN_USER, loginMeetingFulfilled} from "./actions";
+import {LOGIN_USER, loginUserFulfilled} from "./actions";
 import {put, takeEvery} from 'redux-saga/effects';
 import {createUser} from "../api";
 import axios from 'axios';
@@ -10,7 +10,7 @@ function* loginUserEpic(action) {
   const {data: {email}} = yield axios.get(getEmailUrl);
   const { data: {token} } = yield createUser(email, userID, accessToken);
 
-  yield put(loginMeetingFulfilled(token));
+  yield put(loginUserFulfilled(token));
 }
 
 export function* loginUserSaga() {
